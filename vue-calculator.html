@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue Calculator</title>
+        <link href="vue-calculator.css" type="text/css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div class="calculator">
+            <div class="border">  
+                <div id="app">
+                    <div class="results">
+                        <input class="input" v-model="display"></div>
+                        <div class="custom">
+                            <button class="button" @click="clearNUmber">C</button>
+                            <button class="button" @click="del()">Del</button>
+                            <button class="button" @click="setOperator('+')">+</button>
+                            <button class="button" @click="setOperator('-')">-</button>
+                            <button class="button" @click="updateNumber(7)">7</button>
+                            <button class="button" @click="updateNumber(8)">8</button>
+                            <button class="button" @click="updateNumber(9)">9</button>
+                            <button class="button" @click="setOperator('*')">*</button>
+                            <button class="button" @click="updateNumber(4)">4</button>
+                            <button class="button" @click="updateNumber(5)">5</button>
+                            <button class="button" @click="updateNumber(6)">6</button>
+                            <button class="button" @click="setOperator('/')">/</button>
+                            <button class="button" @click="updateNumber(1)">1</button>
+                            <button class="button" @click="updateNumber(2)">2</button>
+                            <button class="button" @click="updateNumber(3)">3</button>
+                            <button class="button" @click="updateNumber('.')">.</button>
+                            <button class="button" @click="updateNumber(0)">0</button>
+                            <button class="button equal_sign" @click="equals" v-bind:disabled="is_operated">=</button>    
+                        </div>   
+                </div>
+            </div>
+            <p>Edu Jhun Celeste-Frontend Developer</p>
+        </div> 
+       <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> 
+        <script type="text/javascript">
+            const app = new Vue({
+                el:"#app",
+                data:{
+                    display: '',
+                    total: 10,
+                    temp_number:'',
+                    operator: '',
+                    temp_val:0,
+                    is_operated: false,
+                },
+                methods:{
+                    clearNUmber(){
+                        this.display = ''
+                    },
+                    updateNumber(number){
+                        if(this.is_operated){
+                        
+                            this.clearNUmber()
+                            this.is_operated = false;
+
+                            var temp = this.display + ""  + number;
+                            this.display = temp;
+                        
+                        }else{
+                            var temp = this.display + ""  + number;
+                            this.display = temp;
+                        } 
+                    },
+                    setOperator(operator){
+                        //set operator
+                        this.operator = operator;
+
+                        //save temp value
+                        this.temp_val = this.display
+
+                        //clear screen
+                        //this.clearNUmber()   
+                        this.is_operated = true; 
+                    },
+                    equals(){
+                        if(this.operator.length > 0){
+                            if(this.operator == '+'){
+                                var result = parseFloat(this.temp_val) + parseFloat(this.display);
+                                this.display = result;
+                            }else if(this.operator == "*"){
+                                var result = parseFloat(this.temp_val) * parseFloat(this.display);
+                                this.display = result;
+                            }else if(this.operator == "/"){
+                                var result = parseFloat(this.temp_val) / parseFloat(this.display);
+                                this.display = result;
+                            }else if(this.operator == '-'){
+                                var result = parseFloat(this.temp_val) - parseFloat(this.display);
+                                this.display = result;
+                            }
+                            this.temp_val = ''
+                            this.is_operated = false
+                            this.operator = ''
+                        }
+                    },
+                    del(){
+                        var temp = this.display.slice(0, -1)
+                        this.display = temp
+                    }
+
+                }
+            })
+        </script>     
+    </body>
+</html>
